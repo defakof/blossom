@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using Microsoft.Maui.Controls;
-using blossom.Services;
+﻿using blossom.Services;
 using blossom.Utilities;
 using blossom.Animations;
 
@@ -36,7 +33,7 @@ namespace blossom
                 {
                     FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                     {
-                        { DevicePlatform.WinUI, new[] { ".exe" } }
+                        { DevicePlatform.WinUI, [".exe"] }
                     }),
                     PickerTitle = $"Select {selectedModOrganizer} executable"
                 });

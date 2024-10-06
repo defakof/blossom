@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using blossom.Utilities;
-using System;
-using System.Threading.Tasks;
+﻿using blossom.Utilities;
 
 namespace blossom.Animations
 {

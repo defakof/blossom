@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-
-namespace blossom.Animations
+﻿namespace blossom.Animations
 {
     public static class CustomTransitionAnimation
     {

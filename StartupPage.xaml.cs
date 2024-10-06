@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using blossom.Services;
 using blossom.Utilities;
-using Microsoft.Maui.Controls;
 
 namespace blossom
 {
@@ -29,12 +27,12 @@ namespace blossom
         private void InitializeModOrganizerList()
         {
             FileLogger.Log("Initializing ModOrganizerList", FileLogger.LogCategory.UI);
-            modOrganizers = new ObservableCollection<ModOrganizerItem>
-            {
-                new ModOrganizerItem { Name = "Mod Organizer 2", TextColor = Colors.White },
-                new ModOrganizerItem { Name = "BG3ModManager", TextColor = Colors.Gray },
-                new ModOrganizerItem { Name = "Vortex", TextColor = Colors.Gray }
-            };
+            modOrganizers =
+            [
+                new ModOrganizerItem() { Name = "Mod Organizer 2", TextColor = Colors.White },
+                new ModOrganizerItem() { Name = "BG3ModManager", TextColor = Colors.Gray },
+                new ModOrganizerItem() { Name = "Vortex", TextColor = Colors.Gray }
+            ];
             ModOrganizerListView.ItemsSource = modOrganizers;
             FileLogger.Log("ModOrganizerList initialized", FileLogger.LogCategory.UI);
         }
@@ -42,12 +40,10 @@ namespace blossom
         private void OnModOrganizerSelected(object sender, SelectedItemChangedEventArgs e)
         {
             FileLogger.Log("OnModOrganizerSelected called", FileLogger.LogCategory.UI);
-            if (e.SelectedItem is ModOrganizerItem selectedItem)
-            {
-                selectedModOrganizer = selectedItem.Name;
-                FileLogger.Log($"Selected mod organizer: {selectedModOrganizer}", FileLogger.LogCategory.UI);
-                UpdateUI();
-            }
+            if (e.SelectedItem is not ModOrganizerItem selectedItem) return;
+            selectedModOrganizer = selectedItem.Name;
+            FileLogger.Log($"Selected mod organizer: {selectedModOrganizer}", FileLogger.LogCategory.UI);
+            UpdateUI();
         }
 
         private void UpdateUI()
@@ -56,14 +52,7 @@ namespace blossom
             bool isSupported = ModOrganizerService.Instance.IsOrganizerSupported(selectedModOrganizer);
             ContinueButton.IsEnabled = isSupported;
 
-            if (isSupported)
-            {
-                SupportStatusLabel.Text = $"{selectedModOrganizer} is supported.";
-            }
-            else
-            {
-                SupportStatusLabel.Text = $"{selectedModOrganizer} is not yet supported.";
-            }
+            SupportStatusLabel.Text = isSupported ? $"{selectedModOrganizer} is supported." : $"{selectedModOrganizer} is not yet supported.";
             FileLogger.Log($"UI updated. Is supported: {isSupported}", FileLogger.LogCategory.UI);
         }
 

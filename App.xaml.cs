@@ -1,6 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using System;
-using blossom.Utilities;
+﻿using blossom.Utilities;
 
 namespace blossom
 {
@@ -8,11 +6,14 @@ namespace blossom
     {
         public App()
         {
+            InitializeComponent();
+            HandleCommandLineArguments();
+
             try
             {
                 FileLogger.Log("App constructor started");
-                InitializeComponent();
 
+                // Set up global exception handling
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
                 TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
@@ -23,6 +24,14 @@ namespace blossom
             {
                 FileLogger.LogException("App Constructor", ex);
             }
+        }
+
+        private void HandleCommandLineArguments()
+        {
+            var args = Environment.GetCommandLineArgs();
+            if (!args.Contains("--debug") && !args.Contains("-d")) return;
+            FileLogger.DebugMode = true;
+            FileLogger.Log("Debug mode enabled via command-line argument");
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

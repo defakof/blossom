@@ -1,17 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace blossom.Utilities
+﻿namespace blossom.Utilities
 {
     public static class FileLogger
     {
         private static string logFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "blossom_log.txt");
         private static readonly TimeSpan sessionTimeout = TimeSpan.FromMinutes(5);
         private static DateTime lastLogTime = DateTime.MinValue;
-        private static List<string> recentLogs = [];
+        private static List<string> recentLogs = new();
         private static readonly int maxRecentLogs = 100;
+        public static bool DebugMode { get; set; } = false;
 
         public enum LogCategory
         {
@@ -30,24 +26,28 @@ namespace blossom.Utilities
 
         private static void EnsureLogFileExists()
         {
-            if (File.Exists(logFile)) return;
-            using (File.Create(logFile)) { }
+            if (!File.Exists(logFile))
+            {
+                using (File.Create(logFile)) { }
+            }
         }
 
         public static void Log(string message, LogCategory category = LogCategory.General)
         {
-            if (category != LogCategory.Error)
-            {
-                AddToRecentLogs($"{DateTime.Now}: [{category}] {message}");
-                return;
-            }
-
             try
             {
                 CheckAndLogNewSession();
                 string logMessage = $"{DateTime.Now}: [{category}] {message}";
-                File.AppendAllText(logFile, logMessage + Environment.NewLine);
-                lastLogTime = DateTime.Now;
+
+                if (DebugMode || category == LogCategory.Error)
+                {
+                    File.AppendAllText(logFile, logMessage + Environment.NewLine);
+                    lastLogTime = DateTime.Now;
+                }
+                else
+                {
+                    AddToRecentLogs(logMessage);
+                }
             }
             catch (Exception ex)
             {

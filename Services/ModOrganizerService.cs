@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace blossom.Services
+﻿namespace blossom.Services
 {
     public class ModOrganizerService
     {
         private static ModOrganizerService _instance;
-        private static readonly object _lock = new object();
+        private static readonly object _lock = new();
 
-        private readonly List<string> supportedOrganizers = new List<string> { "Mod Organizer 2" };
-        private Dictionary<string, string> organizerPaths = new Dictionary<string, string>();
+        private readonly List<string> supportedOrganizers = ["Mod Organizer 2"];
+        private Dictionary<string, string> organizerPaths = new();
 
         private ModOrganizerService() { }
 
@@ -17,15 +14,10 @@ namespace blossom.Services
         {
             get
             {
-                if (_instance == null)
+                if (_instance != null) return _instance;
+                lock (_lock)
                 {
-                    lock (_lock)
-                    {
-                        if (_instance == null)
-                        {
-                            _instance = new ModOrganizerService();
-                        }
-                    }
+                    _instance ??= new ModOrganizerService();
                 }
                 return _instance;
             }
