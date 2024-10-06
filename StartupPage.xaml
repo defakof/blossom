@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:blossom"
+             xmlns:converters="clr-namespace:blossom.Converters"
+             x:Class="blossom.StartupPage"
+             Title="Mod Organizer Check">
+
+    <ContentPage.Resources>
+        <converters:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+        <Label
+            Text="Select your Mod Organizer:"
+            SemanticProperties.HeadingLevel="Level1"
+            FontSize="32"
+            HorizontalOptions="Center" />
+        <ListView x:Name="ModOrganizerListView"
+                  ItemSelected="OnModOrganizerSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label Text="{Binding Name}"
+                               TextColor="{Binding TextColor}"
+                               Padding="10"/>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Label
+            x:Name="SupportStatusLabel"
+            TextColor="White"
+            HorizontalOptions="Center" />
+        <Button
+            x:Name="ContinueButton"
+            Text="Continue"
+            Clicked="OnContinueClicked"
+            HorizontalOptions="Center"
+            IsEnabled="False"
+            Opacity="{Binding Source={x:Reference ContinueButton}, Path=IsEnabled, Converter={StaticResource BoolToOpacityConverter}}" />
+        <Label
+            x:Name="ErrorLabel"
+            TextColor="Red"
+            IsVisible="false"
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>

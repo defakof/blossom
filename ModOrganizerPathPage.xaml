@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="blossom.ModOrganizerPathPage"
+             Title="Select Mod Organizer Executable">
+    <Grid>
+        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+            <Label 
+                Text="Please select the executable file for your mod organizer:"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="24"
+                HorizontalOptions="Center" />
+            
+            <Label 
+                x:Name="SelectedOrganizerLabel"
+                FontSize="18"
+                HorizontalOptions="Center" />
+            
+            <Entry 
+                x:Name="PathEntry"
+                Placeholder="Path to .exe file"
+                HorizontalOptions="Fill" />
+            
+            <Button 
+                Text="Browse"
+                Clicked="OnBrowseClicked"
+                HorizontalOptions="Center" />
+            
+            <Button 
+                Text="Continue"
+                Clicked="OnContinueClicked"
+                HorizontalOptions="Center" />
+            
+            <Label 
+                x:Name="ErrorLabel"
+                TextColor="Red"
+                IsVisible="false"
+                HorizontalOptions="Center" />
+        </VerticalStackLayout>
+        
+        <ActivityIndicator x:Name="LoadingIndicator" 
+                           IsRunning="False" 
+                           IsVisible="False" 
+                           HorizontalOptions="Center" 
+                           VerticalOptions="Center" />
+    </Grid>
+</ContentPage>
